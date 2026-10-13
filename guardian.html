@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlaxGuard Guardian Shield — Family Permission Review</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 520px;
+      padding: 28px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .badge-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+    .badge-safe { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .badge-pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .url-box {
+      background: #0f172a;
+      border: 1px dashed #475569;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 13px;
+      color: #94a3b8;
+      word-break: break-all;
+      margin: 14px 0;
+    }
+    .reasons-list {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 12px;
+      padding: 14px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #fca5a5;
+      line-height: 1.5;
+    }
+    .reasons-list div { margin-bottom: 6px; }
+    .btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .btn {
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-block { background: #ef4444; color: #ffffff; }
+    .btn-block:hover { background: #dc2626; }
+    .btn-allow { background: #334155; color: #cbd5e1; border: 1px solid #475569; }
+    .btn-allow:hover { background: #475569; color: #fff; }
+    .status-banner {
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 700;
+      margin-top: 20px;
+      display: none;
+    }
+    .status-blocked { background: rgba(239, 68, 68, 0.15); border: 1.5px solid #ef4444; color: #f87171; }
+    .status-allowed { background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10b981; color: #34d399; }
+    .helpline-box {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #334155;
+      font-size: 12px;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="main-card">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 34px;">🛡️</span>
+        <div>
+          <h2 style="font-size: 19px; color: #f8fafc; font-weight: 800;">BlaxGuard Guardian Shield</h2>
+          <p style="font-size: 12px; color: #94a3b8;">Senior & Child Permission Review</p>
+        </div>
+      </div>
+      <span class="badge badge-pending" id="status-pill">Pending Review</span>
+    </div>
+
+    <div style="background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; font-size: 13px; color: #cbd5e1; margin-bottom: 14px;">
+      👤 <strong id="senior-label">Family Member (Senior / Child)</strong> attempted to open a link that BlaxGuard flagged as suspicious.
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 13px; color: #94a3b8;">Threat Risk Assessment:</span>
+      <span class="badge badge-danger" id="risk-score-badge">Risk Score: 100 / 100</span>
+    </div>
+
+    <div class="reasons-list" id="reasons-container">
+      <div>• Loading security audit findings...</div>
+    </div>
+
+    <div style="font-size: 12px; color: #94a3b8; margin-bottom: 4px;" id="item-type-label">Destination Link Requested:</div>
+    <div class="url-box" id="target-url">Loading URL...</div>
+
+    <div id="action-controls">
+      <p style="font-size: 12.5px; color: #94a3b8; margin-bottom: 8px;">
+        Do you allow your family member to open this link?
+      </p>
+      <div class="btn-group">
+        <button class="btn btn-block" id="btn-block" onclick="submitDecision('block')">
+          🛑 Block & Protect
+        </button>
+        <button class="btn btn-allow" id="btn-allow" onclick="submitDecision('allow')">
+          ⚠️ Allow Once
+        </button>
+      </div>
+    </div>
+
+    <div class="status-banner" id="status-banner"></div>
+
+    <div class="helpline-box">
+      <span>Govt Cyber Helpline: <strong>1930</strong></span>
+      <span>National Portal: <a href="https://cybercrime.gov.in" target="_blank" style="color: #38bdf8; text-decoration: none;">cybercrime.gov.in</a></span>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const requestId = params.get('id');
+
+    async function loadRequest() {
+      if (!requestId) {
+        document.getElementById('reasons-container').innerHTML = '<div>⚠️ No Request ID provided.</div>';
+        document.getElementById('action-controls').style.display = 'none';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/guardian/status?id=${encodeURIComponent(requestId)}`);
+        if (!res.ok) throw new Error('Request not found');
+        const isUrl = /^https?:\/\//i.test(data.url || '');
+        const labelEl = document.getElementById('item-type-label');
+        if (labelEl) labelEl.textContent = isUrl ? 'Destination Link Requested:' : 'Scanned Message / Content:';
+        document.getElementById('target-url').textContent = data.url || 'Unknown Item';
+        document.getElementById('senior-label').textContent = `${data.seniorName || 'Family Member'} (${data.guardianPhone || 'Protected Device'})`;
+        document.getElementById('risk-score-badge').textContent = `Risk Score: ${data.score || 0} / 100`;
+
+        if (Array.isArray(data.reasons) && data.reasons.length > 0) {
+          document.getElementById('reasons-container').innerHTML = data.reasons.map(r => `<div>• ${r}</div>`).join('');
+        } else {
+          document.getElementById('reasons-container').innerHTML = '<div>• Flagged as high-risk or unverified link.</div>';
+        }
+
+        renderStatus(data.status);
+      } catch (err) {
+        document.getElementById('reasons-container').innerHTML = '<div>⚠️ Request expired or invalid.</div>';
+        document.getElementById('action-controls').style.display = 'none';
+      }
+    }
+
+    function renderStatus(status) {
+      const banner = document.getElementById('status-banner');
+      const pill = document.getElementById('status-pill');
+      const actions = document.getElementById('action-controls');
+
+      if (status === 'blocked') {
+        pill.className = 'badge badge-danger';
+        pill.textContent = 'BLOCKED';
+        banner.className = 'status-banner status-blocked';
+        banner.innerHTML = '🛑 <strong>LINK BLOCKED!</strong> Your family member has been protected. This link will NOT open on their screen.';
+        banner.style.display = 'block';
+        actions.style.display = 'none';
+      } else if (status === 'allowed') {
+        pill.className = 'badge badge-safe';
+        pill.textContent = 'ALLOWED';
+        banner.className = 'status-banner status-allowed';
+        banner.innerHTML = '✅ <strong>LINK ALLOWED</strong> Permission granted. Your family member may now open this link.';
+        banner.style.display = 'block';
+        actions.style.display = 'none';
+      } else {
+        pill.className = 'badge badge-pending';
+        pill.textContent = 'Pending Review';
+        actions.style.display = 'block';
+        banner.style.display = 'none';
+      }
+    }
+
+    async function submitDecision(decision) {
+      if (!requestId) return;
+      try {
+        const res = await fetch('/api/guardian/decision', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: requestId, decision })
+        });
+        const data = await res.json();
+        if (data.success) {
+          renderStatus(data.status);
+        }
+      } catch (e) {
+        alert('Failed to submit decision: ' + e.message);
+      }
+    }
+
+    loadRequest();
+  </script>
+</body>
+</html>

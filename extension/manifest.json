@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "BlaxGuard - Real-Time Scam & Phishing Shield",
+  "version": "1.0.0",
+  "description": "Detects scams, phishing links, and predatory loan apps on Google search, WhatsApp Web, and Telegram with real-time pop-up warnings.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.google.com/*",
+    "*://*.google.co.in/*",
+    "*://*.bing.com/*",
+    "*://web.whatsapp.com/*",
+    "*://web.telegram.org/*",
+    "http://localhost:8080/*",
+    "http://127.0.0.1:8080/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "128": "icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.google.com/*",
+        "*://*.google.co.in/*",
+        "*://*.bing.com/*"
+      ],
+      "js": ["content_search.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "*://web.whatsapp.com/*",
+        "*://web.telegram.org/*"
+      ],
+      "js": ["content_messenger.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "blaxguard",
+  "version": "1.0.0",
+  "description": "BlaxGuard - AI & Central RBI Registry-Powered Scam Protection for Citizens & Seniors",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "node server.js",
+    "bot": "node --use-system-ca telegram_bot.js",
+    "bot:telegram": "node --use-system-ca telegram_bot.js",
+    "bot:whatsapp": "node whatsapp_bot.js",
+    "test": "node test_telegram_resilience.js && node test_extension_integration.js && node test_whatsapp_webhook.js && node test_guardian_shield.js",
+    "test:telegram": "node test_telegram_resilience.js",
+    "test:extension": "node test_extension_integration.js",
+    "test:whatsapp": "node test_whatsapp_webhook.js",
+    "test:guardian": "node test_guardian_shield.js"
+  },
+  "keywords": [
+    "anti-scam",
+    "cybersecurity",
+    "rbi",
+    "telegram-bot",
+    "whatsapp-bot",
+    "chrome-extension"
+  ],
+  "author": "BlaxGuard Team",
+  "license": "ISC"
+}
