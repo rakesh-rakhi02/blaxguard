@@ -9669,7 +9669,7 @@ Reply *ALLOW* to permit one-time access.
     /* Project ID: blaxguard                                          */
     /* ============================================================== */
     const firebaseConfig = {
-      apiKey: "AIzaSyAFblnvaDZoUEmXqKvNzQTjJj8Be2aZCnU",
+      apiKey: (typeof window !== "undefined" && window.FIREBASE_API_KEY) ? window.FIREBASE_API_KEY : "YOUR_FIREBASE_API_KEY",
       authDomain: "blaxguard.firebaseapp.com",
       projectId: "blaxguard",
       storageBucket: "blaxguard.firebasestorage.app",
@@ -9684,7 +9684,7 @@ Reply *ALLOW* to permit one-time access.
     let isFirestoreReady = false;
 
     try {
-      if (typeof firebase !== "undefined") {
+      if (typeof firebase !== "undefined" && firebaseConfig.apiKey !== "YOUR_FIREBASE_API_KEY") {
         firebaseApp = firebase.initializeApp(firebaseConfig);
         firestoreDb = firebase.firestore();
         try {
